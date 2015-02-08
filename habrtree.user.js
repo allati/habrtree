@@ -200,7 +200,7 @@ function letsJQuery() {
 					var up = getIntFromText(upDown[0]);
 					var down = getIntFromText(upDown[1]);
 					var wilsonRating = parseInt(wilsonScore(up, down) * 100, 10);
-					scoreSpan.append(tag("span", {'style': "color:yellow;", 'text': " " + wilsonRating}));
+					scoreSpan.append(tag("span", {'style': "color: #3AA0FF; font-size: xx-small", 'text': " (" + wilsonRating + ")"}));
 					allRatings[id] = [habrRating, wilsonRating];
 				});
 			})();
