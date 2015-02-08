@@ -41,13 +41,13 @@ function letsJQuery() {
 				return b - a;
 			}
 
-			function hightlightRating(i) {
+			function hightlightRating(i, ratingSelector) {
 				$("a.open-comment").remove();
 				$("div.comment_item").each(function() {
 					var comment = $(this);
 					var message = $('div.message:first', comment);
 					message.css("border-top", "");
-					var rating = getIntRating($(scoreSelector + ':first', comment));
+					var rating = getIntRating($(ratingSelector, comment));
 					if (rating >= i) {
 						message.show();
 						var color = hightlight;
@@ -91,7 +91,7 @@ function letsJQuery() {
 					return (phat + z * z / (2 * n) - z * Math.sqrt((phat * (1 - phat) + z * z / (4 * n)) / n)) / (1 + z * z / n);
 			}
 
-			function appendRatings(ratings) {
+			function appendRatings(ratings, ratingSelector, ratingColorFunc) {
 				var ratingsDiv = tag('div');
 				var ratingsSorted = $.map(ratings, function(i, k) {return parseInt(k, 10);}).sort(desc);
 
@@ -100,9 +100,9 @@ function letsJQuery() {
 				}
 
 				$.each(ratingsSorted, function(k, i) {
-					var anchor = tag('a', {'class': 'rating-link', href: "#", text: i}).css("color", getRatingColor(i));
+					var anchor = tag('a', {'class': 'rating-link', href: "#", text: i}).css("color", ratingColorFunc(i));
 					anchor.click(function() {
-						hightlightRating(parseInt(anchor.html(), 10));
+						hightlightRating(parseInt(anchor.html(), 10), ratingSelector);
 						return false;
 					});
 
@@ -134,8 +134,8 @@ function letsJQuery() {
 					return ratings;
 				}
 
-				appendRatings(groupByRating(wilsonRatings));
-				appendRatings(groupByRating(habrRatings));
+				appendRatings(groupByRating(wilsonRatings), scoreSelectorWilson + ":first", function (rating) {return "#3AA0FF";});
+				appendRatings(groupByRating(habrRatings), scoreSelectorHabr + ":first", function (rating) {return getRatingColor(rating);});
 			}
 
 			function getRatingColor(rating) {
@@ -189,12 +189,13 @@ function letsJQuery() {
 				$("#comments .mark").css({position: "absolute", left: -40});
 			}
 
-			var scoreSelector = "span.score";
+			var scoreSelectorHabr = "span.score";
+			var scoreSelectorWilson = "span.score span";
 			var allRatings = {};
 			(function initRatings() {
 				$("#comments div[id ^= 'voting_']").each(function() {
 					var id = getIntFromText($(this).attr("id")); 
-					var scoreSpan = $(scoreSelector, $(this));
+					var scoreSpan = $(scoreSelectorHabr, $(this));
 					var habrRating = getIntRating(scoreSpan);
 					var upDown = scoreSpan.attr('title').split(':')[1].split('и');
 					var up = getIntFromText(upDown[0]);
@@ -211,8 +212,8 @@ function letsJQuery() {
 				(function sortComments() {
 					var mylist = $('#comments > div.comment_item');
 					mylist.sortElements(function(a, b) {
-						var ratingA = getIntRating($(scoreSelector, a).first());
-						var ratingB = getIntRating($(scoreSelector, b).first());
+						var ratingA = getIntRating($(scoreSelectorHabr, a).first());
+						var ratingB = getIntRating($(scoreSelectorHabr, b).first());
 						return ratingB - ratingA;
 					});
 				})();
