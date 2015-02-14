@@ -1,6 +1,7 @@
 // ==UserScript==
 // @name HabrTree
 // @namespace dotneter_allati
+// @desciption Fold user comments based on their rating on habrahabr, geektimes and megamozg sites.
 // @grant none
 // @include http*://habrahabr.ru/post/*
 // @include http*://habrahabr.ru/company/*/blog/*
