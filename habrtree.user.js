@@ -9,6 +9,7 @@
 // @include http*://geektimes.ru/company/*/blog/*
 // @include http*://megamozg.ru/post/*
 // @include http*://megamozg.ru/company/*/blog/*
+// @version 1.0.0
 // ==/UserScript==
 
 var scoreLeftSide = false;
