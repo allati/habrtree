@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name HabrTree
-// @namespace dotneter
+// @namespace dotneter_allati
 // @grant none
 // @include http*://habrahabr.ru/post/*
 // @include http*://habrahabr.ru/company/*/blog/*
