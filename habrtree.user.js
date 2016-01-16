@@ -9,7 +9,7 @@
 // @include http*://geektimes.ru/company/*/blog/*
 // @include http*://megamozg.ru/post/*
 // @include http*://megamozg.ru/company/*/blog/*
-// @version 1.0.0
+// @version 1.0.1
 // ==/UserScript==
 
 var scoreLeftSide = false;
@@ -189,8 +189,8 @@ var hightlight = "LightGreen";
 		$("#comments .mark").css({position: "absolute", left: -40});
 	}
 
-	var scoreSelectorHabr = "span.score";
-	var scoreSelectorWilson = "span.score span";
+	var scoreSelectorHabr = "span.js-score";
+	var scoreSelectorWilson = "span.js-score span";
 	var allRatings = {};
 	(function initRatings() {
 		$("#comments div[id ^= 'voting_']").each(function() {
