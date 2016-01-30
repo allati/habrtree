@@ -9,7 +9,7 @@
 // @include http*://geektimes.ru/company/*/blog/*
 // @include http*://megamozg.ru/post/*
 // @include http*://megamozg.ru/company/*/blog/*
-// @version 1.0.1
+// @version 1.0.2
 // ==/UserScript==
 
 var scoreLeftSide = false;
@@ -18,6 +18,16 @@ var green = "#339900";
 var red = "#CC0000";
 var neutral = "#339900";
 var hightlight = "LightGreen";
+
+var commentTag = "li";
+if ($(commentTag + ".comment_item").length == 0) {
+	commentTag = "div";
+}
+
+var repliesTag = "ul";
+if ($(repliesTag + ".reply_comments").length == 0) {
+	repliesTag = "div";
+}
 
 (function($) {
 	function tag(name, attrs) {
@@ -43,7 +53,7 @@ var hightlight = "LightGreen";
 
 	function hightlightRating(i, ratingSelector) {
 		$("a.open-comment").remove();
-		$("div.comment_item").each(function() {
+		$(commentTag + ".comment_item").each(function() {
 			var comment = $(this);
 			var message = $('div.message:first', comment);
 			message.css("border-top", "");
@@ -52,13 +62,13 @@ var hightlight = "LightGreen";
 				message.show();
 				var color = hightlight;
 				message.css("border-top", "5px solid " + color);
-				message.parents("div.comment_item.comment-close").each(function() {
+				message.parents(commentTag + ".comment_item.comment-close").each(function() {
 					showMessage($(this));
 				});
 			} else {
 				comment.addClass("comment-close");
 				message.hide();
-				$("div.reply_comments:first", comment).hide();
+				$(repliesTag + ".reply_comments:first", comment).hide();
 				addOpenLink(comment);
 			}
 		});
@@ -68,7 +78,7 @@ var hightlight = "LightGreen";
 		comment.removeClass("comment-close");
 		$("a.open-comment:first", comment).remove();
 		$("div.message:first", comment).show();
-		$("div.reply_comments:first", comment).show();
+		$(repliesTag + ".reply_comments:first", comment).show();
 	}
 
 	function addOpenLink(comment) {
@@ -210,7 +220,7 @@ var hightlight = "LightGreen";
 
 	if (autoSort) {
 		(function sortComments() {
-			var mylist = $('#comments > div.comment_item');
+			var mylist = $('#comments > " + commentTag + ".comment_item');
 			mylist.sortElements(function(a, b) {
 				var ratingA = getIntRating($(scoreSelectorHabr, a).first());
 				var ratingB = getIntRating($(scoreSelectorHabr, b).first());
