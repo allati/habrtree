@@ -2,6 +2,7 @@
 // @name HabrTree
 // @namespace dotneter_allati
 // @description Fold user comments based on their rating on habrahabr, geektimes and megamozg sites.
+// @require https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js
 // @grant none
 // @include http*://habrahabr.ru/post/*
 // @include http*://habrahabr.ru/company/*/blog/*
@@ -9,7 +10,7 @@
 // @include http*://geektimes.ru/company/*/blog/*
 // @include http*://megamozg.ru/post/*
 // @include http*://megamozg.ru/company/*/blog/*
-// @version 1.0.2
+// @version 1.1.0
 // ==/UserScript==
 
 var scoreLeftSide = false;
@@ -20,14 +21,7 @@ var neutral = "#339900";
 var hightlight = "LightGreen";
 
 var commentTag = "li";
-if ($(commentTag + ".comment_item").length == 0) {
-	commentTag = "div";
-}
-
 var repliesTag = "ul";
-if ($(repliesTag + ".reply_comments").length == 0) {
-	repliesTag = "div";
-}
 
 (function($) {
 	function tag(name, attrs) {
@@ -53,16 +47,16 @@ if ($(repliesTag + ".reply_comments").length == 0) {
 
 	function hightlightRating(i, ratingSelector) {
 		$("a.open-comment").remove();
-		$(commentTag + ".comment_item").each(function() {
+		$(commentTag + ".js-comment").each(function() {
 			var comment = $(this);
-			var message = $('div.message:first', comment);
+			var message = $('> .comment > .comment__message', comment);
 			message.css("border-top", "");
 			var rating = getIntRating($(ratingSelector, comment));
 			if (rating >= i) {
 				message.show();
 				var color = hightlight;
 				message.css("border-top", "5px solid " + color);
-				message.parents(commentTag + ".comment_item.comment-close").each(function() {
+				message.parents(commentTag + ".comment-close").each(function() {
 					showMessage($(this));
 				});
 			} else {
@@ -77,18 +71,18 @@ if ($(repliesTag + ".reply_comments").length == 0) {
 	function showMessage(comment) {
 		comment.removeClass("comment-close");
 		$("a.open-comment:first", comment).remove();
-		$("div.message:first", comment).show();
+		$("> .comment > .comment__message", comment).show();
 		$(repliesTag + ".reply_comments:first", comment).show();
 	}
 
 	function addOpenLink(comment) {
-		var div = $("div.reply:first", comment);
+		var div = $("> .comment > .comment__footer", comment);
 		var open = tag("a", {"class": "reply open-comment", href: "#", text: "раскрыть"});
 		open.click(function() {
 			showMessage(comment);
 			return false;
 		});
-		div.append(open);
+		div.before(open);
 	}
 
 	function wilsonScore(up, down) {
@@ -203,7 +197,7 @@ if ($(repliesTag + ".reply_comments").length == 0) {
 	var scoreSelectorWilson = "span.js-score span";
 	var allRatings = {};
 	(function initRatings() {
-		$("#comments div[id ^= 'voting_']").each(function() {
+		$("#comments div.comment").each(function() {
 			var id = getIntFromText($(this).attr("id")); 
 			var scoreSpan = $(scoreSelectorHabr, $(this));
 			var habrRating = getIntRating(scoreSpan);
