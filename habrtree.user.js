@@ -4,13 +4,9 @@
 // @description Fold user comments based on their rating on habrahabr, geektimes and megamozg sites.
 // @require https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js
 // @grant none
-// @include http*://habrahabr.ru/post/*
-// @include http*://habrahabr.ru/company/*/blog/*
-// @include http*://geektimes.ru/post/*
-// @include http*://geektimes.ru/company/*/blog/*
-// @include http*://megamozg.ru/post/*
-// @include http*://megamozg.ru/company/*/blog/*
-// @version 1.1.0
+// @include http*://habr.com/post/*
+// @include http*://habr.com/company/*/blog/*
+// @version 1.1.1
 // ==/UserScript==
 
 var scoreLeftSide = false;
