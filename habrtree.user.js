@@ -6,7 +6,7 @@
 // @grant none
 // @include http*://habr.com/post/*
 // @include http*://habr.com/company/*/blog/*
-// @version 1.1.1
+// @version 1.1.2
 // ==/UserScript==
 
 var scoreLeftSide = false;
@@ -191,9 +191,13 @@ var repliesTag = "ul";
 
 	var scoreSelectorHabr = "span.js-score";
 	var scoreSelectorWilson = "span.js-score span";
+	var bannedMessageSelector = "> .comment__message_banned";
 	var allRatings = {};
 	(function initRatings() {
 		$("#comments div.comment").each(function() {
+			if ($(bannedMessageSelector, $(this)).length) {
+				return;
+			}
 			var id = getIntFromText($(this).attr("id")); 
 			var scoreSpan = $(scoreSelectorHabr, $(this));
 			var habrRating = getIntRating(scoreSpan);
