@@ -1,12 +1,14 @@
 // ==UserScript==
 // @name HabrTree
 // @namespace dotneter_allati
-// @description Fold user comments based on their rating on habrahabr, geektimes and megamozg sites.
+// @description Fold user comments based on their rating on habr.com.
 // @require https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js
 // @grant none
 // @include http*://habr.com/post/*
 // @include http*://habr.com/company/*/blog/*
-// @version 1.1.2
+// @include http*://habr.com/*/post/*
+// @include http*://habr.com/*/company/*/blog/*
+// @version 1.1.3
 // ==/UserScript==
 
 var scoreLeftSide = false;
